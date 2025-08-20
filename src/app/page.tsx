@@ -1,9 +1,14 @@
+import AudioRecoder from '@/components/AudioRecoder'
+import AudioRecorders from '@/components/AudioRecoder'
+import ChatWindow from '@/components/ChatWindow'
+import NavBar from '@/components/NavBar'
 
-
-export default function Home() {
+export default function Home () {
   return (
-    <>
-    <h1>Hello</h1>
-    </>
-  );
+    <main className='flex flex-col items-center p-10 min-h-screen bg-gray-100'>
+      <NavBar />
+      <ChatWindow />
+      <AudioRecoder />
+    </main>
+  )
 }

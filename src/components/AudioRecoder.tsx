@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { useRef, useState } from 'react'
 import voice from '@/../../public/voice.png'
 import stop from '@/../../public/stop.png'
+import { useTranscribe } from '@/app/context/contextAPI'
 
 function AudioRecoder () {
   const [recordedUrl, setRecordedUrl] = useState<string>('')
@@ -11,7 +12,7 @@ function AudioRecoder () {
   const mediaStream = useRef<MediaStream | null>(null)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
   const chunks = useRef<Blob[]>([])
-
+  const {setTranscription} = useTranscribe()
   console.log(recordedUrl)
 
   const uploadRecording = async (blob: Blob) => {
@@ -30,6 +31,7 @@ function AudioRecoder () {
 
       const data = await res.json()
       console.log('API response:', data.text)
+      setTranscription(data.text) 
     } catch (err) {
       console.error(err)
     }
