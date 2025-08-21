@@ -1,10 +1,10 @@
 'use client'
 
-import { createContext, useContext, useState, ReactNode } from 'react'
+import { createContext, useContext, useState, ReactNode, SetStateAction, Dispatch } from 'react'
 
 interface TranscribeContextType {
-  transcription: string
-  setTranscription: (text: string) => void
+  transcription: string[]
+  setTranscription: Dispatch<SetStateAction<string[]>>
 }
 
 const TranscribeContext = createContext<TranscribeContextType | undefined>(
@@ -12,7 +12,7 @@ const TranscribeContext = createContext<TranscribeContextType | undefined>(
 )
 
 export const TranscribeProvider = ({ children }: { children: ReactNode }) => {
-  const [transcription, setTranscription] = useState('')
+  const [transcription, setTranscription] = useState([] as string[])
 
   const value = {
     transcription,
