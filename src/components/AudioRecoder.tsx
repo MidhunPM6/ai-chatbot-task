@@ -3,13 +3,17 @@
 import Image from 'next/image'
 import voice from '@/../../public/voice.png'
 import stop from '@/../../public/stop.png'
-import { useAudioRecorder } from '@/app/hooks/recordHooks'
+import { useAudioRecorder } from '@/app/hooks/useAudioRecorder'
+
 
 
 
 function AudioRecoder () {
 
   const {started,startRecording,stopRecording} = useAudioRecorder()
+
+  
+
 
   return (
     <>
@@ -44,6 +48,7 @@ function AudioRecoder () {
         <button
           type='button'
           className='border border-gray-400  px-4 py-2 rounded'
+         
         >
           Click here
         </button>

@@ -1,17 +1,19 @@
-import { useRef, useState } from 'react'
+import { use, useRef, useState } from 'react'
 import { useTranscribe } from '../context/contextAPI'
+import { useGemini } from '@/app/hooks/useGemini'
 
 export const useAudioRecorder = () => {
   const [recordedUrl, setRecordedUrl] = useState<string>('')
   const [started, setStarted] = useState<boolean>(false)
+
   const mediaStream = useRef<MediaStream | null>(null)
   const mediaRecorder = useRef<MediaRecorder | null>(null)
+
   const chunks = useRef<Blob[]>([])
-  const { setTranscription } = useTranscribe()
-  console.log(recordedUrl)
 
+  const { setTranscription, transcription } = useTranscribe()
+  const { handleGemini } = useGemini()
 
-  
   const uploadRecording = async (blob: Blob) => {
     const formData = new FormData()
     formData.append('file', blob, 'recording.webm')
@@ -29,11 +31,12 @@ export const useAudioRecorder = () => {
       const data = await res.json()
       console.log('API response:', data.text)
       setTranscription(prev => [...prev, data.text])
+      const response = await handleGemini(data.text)
+      console.log(response)
     } catch (err) {
       console.error(err)
     }
   }
-
 
   const startRecording = async () => {
     setStarted(true)
@@ -59,7 +62,6 @@ export const useAudioRecorder = () => {
     }
   }
 
-
   const stopRecording = async () => {
     setStarted(false)
     if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {
@@ -70,8 +72,6 @@ export const useAudioRecorder = () => {
       mediaStream.current.getTracks().forEach(track => track.stop())
     }
   }
-
-
 
   return {
     startRecording,
