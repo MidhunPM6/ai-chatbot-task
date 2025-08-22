@@ -5,7 +5,7 @@ import NavBar from '@/components/NavBar'
 
 export default function Home () {
   return (
-    <main className='flex flex-col items-center p-10 min-h-screen bg-gray-100'>
+    <main className='flex flex-col items-center p-3 min-h-screen bg-gray-100'>
       <NavBar />
       <ChatWindow />
       <AudioRecoder />

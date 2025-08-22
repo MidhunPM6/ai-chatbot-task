@@ -1,6 +1,6 @@
 import { use, useRef, useState } from 'react'
 import { useTranscribe } from '../context/contextAPI'
-import { useGemini } from '@/app/hooks/useGemini'
+import { useGemini } from '@/hooks/useGemini'
 
 export const useAudioRecorder = () => {
   const [recordedUrl, setRecordedUrl] = useState<string>('')
@@ -11,13 +11,13 @@ export const useAudioRecorder = () => {
 
   const chunks = useRef<Blob[]>([])
 
-  const { setTranscription, transcription } = useTranscribe()
+  const { setTranscription, transcription, setIsLoading } = useTranscribe()
   const { handleGemini } = useGemini()
 
   const uploadRecording = async (blob: Blob) => {
     const formData = new FormData()
     formData.append('file', blob, 'recording.webm')
-
+    setIsLoading(true)
     try {
       const res = await fetch('/api/transcribe', {
         method: 'POST',
@@ -33,8 +33,10 @@ export const useAudioRecorder = () => {
       setTranscription(prev => [...prev, data.text])
       const response = await handleGemini(data.text)
       console.log(response)
+      setIsLoading(false)
     } catch (err) {
       console.error(err)
+    } finally {
     }
   }
 
