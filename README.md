@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# SpeakGenie – AI Voice English Tutor
 
-## Getting Started
+**SpeakGenie** is an AI-powered English speaking and communication app for students aged 6–16. It provides real-time AI feedback, gamified lessons, and coaching to make learning fun and effective.  
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 📌 Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 1️⃣ AI Chatbot – Speak with a Tutor
+- **Voice Input:** Students speak → AI listens using **Python Whisper server** for Speech-to-Text (STT).  
+- **AI Response:** Gemini generates a child-friendly reply.  
+- **Voice Output:** AI speaks back using **TTS** (ElevenLabs).  
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+**Example:**  
+👧 Student: “Hi Genie, what is a noun?”  
+🤖 AI: “Hello! A noun is the name of a person, place, or thing. Can you give me one?”  
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+### 2️⃣ Roleplay Mode – Real-Life Conversations
+- Students practice speaking in **real-world scenarios**.  
+- Predefined scenarios include:  
+  - 🏫 At School  
+  - 🛒 At the Store  
+  - 👨‍👩‍👧 At Home  
 
-To learn more about Next.js, take a look at the following resources:
+---
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠️ Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+- **Frontend:** Next.js, React, Tailwind CSS  
+- **Backend:**  Next.js 
+- **AI & Voice:**  
+  - **Gemini API** – AI responses  
+  - **ElevenLabs** – Speech output  
+  - **Whisper (Python)** – Speech-to-Text server  
+- **State Management:** React Context API  
+ 
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ⚡ Python Whisper STT Server
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- A separate **Python server** handles Speech-to-Text using OpenAI Whisper.  
+- The frontend sends the recorded audio file (`.webm` or `.wav`) to this server.  
+
