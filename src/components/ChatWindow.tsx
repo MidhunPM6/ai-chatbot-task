@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import React, { useEffect, useRef } from 'react'
 import avatar from '@/../../public/avatar.png'
-import { useTranscribe } from '@/context/contextAPI'
+import { useContextAPI } from '@/context/contextAPI'
 import Home from '@/components/scenario/Home'
 import School from './scenario/School'
 import Store from './scenario/Store'
@@ -11,22 +11,38 @@ import NormalChat from './scenario/NormalChat'
 import loading from '@/../../public/loading.png'
 
 const ChatWindow = () => {
-  const { transcription, apiRes, scenario, isLoading } = useTranscribe()
-  console.log(scenario)
+  const { transcription, apiRes, scenario, isLoading, setConversation } =
+    useContextAPI()
+
+
+  // create a object for the conversation by the user and bot response
   const conversation = transcription.map((userMsg, index) => ({
     user: userMsg,
     bot: apiRes[index] || null
   }))
 
+  // update the conversation state whenever transcription or apiRes changes
+  useEffect(() => {
+    const newConversation = transcription.map((userMsg, index) => ({
+      user: userMsg,
+      bot: apiRes[index] || null
+    }))
+
+    setConversation(newConversation)
+  }, [transcription, apiRes, setConversation])
+
+
+  //  Used to scroll at bottonm of the chat window 
   const chatContainerRef = useRef<HTMLDivElement | null>(null)
 
   useEffect(() => {
-    // Scroll the chat container to bottom when messages change
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight
     }
   }, [conversation])
 
+
+  // Render components based on the selected scenario
   const renderComponets = () => {
     switch (scenario) {
       case 'home':
@@ -96,7 +112,13 @@ const ChatWindow = () => {
 
       {isLoading && (
         <div>
-          <Image src={loading} alt='' className='animate-spin' width={30} height={30}/>
+          <Image
+            src={loading}
+            alt=''
+            className='animate-spin'
+            width={30}
+            height={30}
+          />
         </div>
       )}
     </section>

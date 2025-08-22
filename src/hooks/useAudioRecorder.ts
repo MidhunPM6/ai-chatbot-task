@@ -1,5 +1,5 @@
 import { use, useRef, useState } from 'react'
-import { useTranscribe } from '../context/contextAPI'
+import { useContextAPI } from '../context/contextAPI'
 import { useGemini } from '@/hooks/useGemini'
 
 export const useAudioRecorder = () => {
@@ -11,9 +11,10 @@ export const useAudioRecorder = () => {
 
   const chunks = useRef<Blob[]>([])
 
-  const { setTranscription, transcription, setIsLoading } = useTranscribe()
+  const { setTranscription, transcription, setIsLoading } = useContextAPI()
   const { handleGemini } = useGemini()
 
+  //  function to upload the recorded audio to the SST
   const uploadRecording = async (blob: Blob) => {
     const formData = new FormData()
     formData.append('file', blob, 'recording.webm')
@@ -29,10 +30,10 @@ export const useAudioRecorder = () => {
       }
 
       const data = await res.json()
-      console.log('API response:', data.text)
+
       setTranscription(prev => [...prev, data.text])
       const response = await handleGemini(data.text)
-      console.log(response)
+
       setIsLoading(false)
     } catch (err) {
       console.error(err)
@@ -40,6 +41,7 @@ export const useAudioRecorder = () => {
     }
   }
 
+  //  Here is the recording starts
   const startRecording = async () => {
     setStarted(true)
     try {
@@ -64,6 +66,7 @@ export const useAudioRecorder = () => {
     }
   }
 
+  //  Here is the recording stops
   const stopRecording = async () => {
     setStarted(false)
     if (mediaRecorder.current && mediaRecorder.current.state === 'recording') {

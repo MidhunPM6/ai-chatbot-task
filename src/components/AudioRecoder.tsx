@@ -4,19 +4,16 @@ import Image from 'next/image'
 import voice from '@/../../public/voice.png'
 import stop from '@/../../public/stop.png'
 import { useAudioRecorder } from '@/hooks/useAudioRecorder'
-import { useTranscribe } from '@/context/contextAPI'
+import { useContextAPI } from '@/context/contextAPI'
 import { useState } from 'react'
 import homelogo from '@/../../public/home.png'
 import Schoollogo from '@/../../public/school.png'
 import storelogo from '@/../../public/store.png'
 
 function AudioRecoder () {
-  const { setScenario,setApiRes,setTranscription } = useTranscribe()
-  const [modelIsOpen, setModelIsOpen] = useState(false)
-
+  const { setScenario, setApiRes, setTranscription } = useContextAPI()
   const { started, startRecording, stopRecording } = useAudioRecorder()
-
-
+  const [modelIsOpen, setModelIsOpen] = useState(false)
 
   const scenarios = [
     {
@@ -52,6 +49,7 @@ function AudioRecoder () {
     setApiRes([])
     setTranscription([])
   }
+
   return (
     <>
       <section className='flex flex-col items-center gap-4 p-4 bg-gray-50 rounded-lg shadow-md mt-4  lg:min-w-xl lg:w-0 w-full border border-gray-300'>
@@ -62,7 +60,7 @@ function AudioRecoder () {
                 src={stop}
                 alt=''
                 onClick={stopRecording}
-                className='bg-emerald-500 rounded-full scale-150 transition-all duration-300 ease-in-out hover:scale-125 cursor-pointer '
+                className='bg-red-600 animate-pulse rounded-full  transition-all duration-300 ease-in-out hover:scale-125 cursor-pointer '
                 width={45}
                 height={45}
               ></Image>
